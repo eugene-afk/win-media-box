@@ -1,0 +1,23 @@
+﻿<Window x:Class="WinMediaBox.View.RadioViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        mc:Ignorable="d"
+        Title="RadioViewWindow" Height="450" Width="800" Closed="Window_Closed" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None">
+    <Grid>
+        <Grid.Background>
+            <VisualBrush>
+                <VisualBrush.Visual>
+                    <Image x:Name="BG" gif:AnimationBehavior.SourceUri="{Binding bg}" gif:AnimationBehavior.RepeatBehavior="Forever" />
+                </VisualBrush.Visual>
+            </VisualBrush>
+        </Grid.Background>
+
+        <Grid>
+            <Image Source="{Binding currentStationimg}" MaxHeight="200" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5" />
+            <MediaElement Name="Player" LoadedBehavior="Manual" Height="10" VerticalAlignment="Top" Width="100"/>
+        </Grid>
+    </Grid>
+</Window>

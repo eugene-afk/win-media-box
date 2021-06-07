@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\NotoSansJP-Black.ttf" />
+    <None Remove="Fonts\NotoSansJP-Bold.ttf" />
+    <None Remove="Fonts\NotoSansJP-Light.ttf" />
+    <None Remove="Fonts\NotoSansJP-Medium.ttf" />
+    <None Remove="Fonts\NotoSansJP-Regular.ttf" />
+    <None Remove="Fonts\NotoSansJP-Thin.ttf" />
+    <None Remove="img\iptv.png" />
+    <None Remove="img\localstorage.png" />
+    <None Remove="img\power.png" />
+    <None Remove="img\radio.png" />
+    <None Remove="img\twitch.png" />
+    <None Remove="img\yt.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1-beta1" />
+    <PackageReference Include="Serilog" Version="2.10.1-dev-01285" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00909" />
+    <PackageReference Include="XamlAnimatedGif" Version="2.0.0-alpha.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\NotoSansJP-Black.ttf" />
+    <Resource Include="Fonts\NotoSansJP-Bold.ttf" />
+    <Resource Include="Fonts\NotoSansJP-Light.ttf" />
+    <Resource Include="Fonts\NotoSansJP-Medium.ttf" />
+    <Resource Include="Fonts\NotoSansJP-Regular.ttf" />
+    <Resource Include="Fonts\NotoSansJP-Thin.ttf" />
+    <Resource Include="img\icon.ico" />
+    <Resource Include="img\iptv.png" />
+    <Resource Include="img\localstorage.png" />
+    <Resource Include="img\power.png" />
+    <Resource Include="img\radio.png" />
+    <Resource Include="img\twitch.png" />
+    <Resource Include="img\yt.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="temp\data\corePathes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\data\RadioStations.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\data\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\data\TwitchChannels.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\data\YTChannels.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\images\bg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\images\default.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\images\radio-ani.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\images\radio\hitfm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\images\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\images\refresh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\images\twitch\fifa.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="temp\images\yt\nasa.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup></Project>

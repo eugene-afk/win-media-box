@@ -1,0 +1,77 @@
+﻿<Window x:Class="WinMediaBox.View.PowerControlWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinMediaBox.View"
+        mc:Ignorable="d"
+        Title="PowerControlWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True" Closed="Window_Closed">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.95" Color="#222"/>
+    </Window.Background>
+    <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150" />
+            <RowDefinition Height="150" />
+            <RowDefinition Height="150" />
+        </Grid.RowDefinitions>
+        <Button x:Name="SleepBtn" Style="{StaticResource TransparentFlat}" MaxWidth="650" MaxHeight="100"
+                FocusVisualStyle="{StaticResource FocusVisual}" Focusable="True" Command="{Binding SuspendCommand}">
+            <Border CornerRadius="2" Margin="7" Background="#4285F4">
+                <Grid>
+                    <Border BorderThickness="0.5">
+                        <StackPanel VerticalAlignment="Center">
+                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Vertical" Grid.Row="1">
+                                    <TextBlock TextTrimming="WordEllipsis" TextWrapping="Wrap" Text="SLEEP" Padding="10" Foreground="white" HorizontalAlignment="Center" FontSize="64" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Button>
+        <Button x:Name="ShutdownBtn" Style="{StaticResource TransparentFlat}" MaxWidth="650" MaxHeight="100" Grid.Row="1"
+                FocusVisualStyle="{StaticResource FocusVisual}" Focusable="True" Command="{Binding ShutdownCommand}">
+            <Border CornerRadius="2" Margin="7" Background="#EA4335">
+                <Grid>
+                    <Border BorderThickness="0.5">
+                        <StackPanel VerticalAlignment="Center">
+                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Vertical" Grid.Row="1">
+                                    <TextBlock TextTrimming="WordEllipsis" TextWrapping="Wrap" Text="SHUTDOWN" Padding="10" Foreground="white" HorizontalAlignment="Center" FontSize="64" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Button>
+        <Button x:Name="SetTimerBtn" Style="{StaticResource TransparentFlat}" MaxWidth="650" MaxHeight="100" Grid.Row="2"
+                FocusVisualStyle="{StaticResource FocusVisual}" Focusable="True" Command="{Binding OpenTimerWindowCommand}">
+            <Border CornerRadius="2" Margin="7" Background="#34A853">
+            <Grid>
+                <Border BorderThickness="0.5">
+                    <StackPanel VerticalAlignment="Center">
+                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" Grid.Row="1">
+                                <TextBlock TextTrimming="WordEllipsis" TextWrapping="Wrap" Text="SET TIMER" Padding="10" Foreground="white" HorizontalAlignment="Center" FontSize="64" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            </Border>
+        </Button>
+    </Grid>
+</Window>

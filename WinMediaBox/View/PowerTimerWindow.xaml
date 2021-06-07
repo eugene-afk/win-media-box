@@ -1,0 +1,62 @@
+﻿<Window x:Class="WinMediaBox.View.PowerTimerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinMediaBox.View"
+        mc:Ignorable="d"
+        Title="PowerTimerWindow" Height="450" Width="800" WindowStyle="None"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        AllowsTransparency="True" PreviewKeyDown="Window_KeyDown">
+<Window.Background>
+    <SolidColorBrush Opacity="0.95" Color="#222"/>
+</Window.Background>
+    <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="130" />
+            <RowDefinition Height="130" />
+            <RowDefinition Height="130" />
+        </Grid.RowDefinitions>
+        <Label Content="Set time to shutdown or suspend in minutes." HorizontalAlignment="Center" Foreground="#f7f7f7" FontSize="32" />
+        <TextBox x:Name="TimerInput" Grid.Row="1" MaxWidth="650" MaxHeight="100" Text="{Binding timerMinutes}" Focusable="True" FontSize="56" VerticalAlignment="Center" />
+        <Button x:Name="SleepBtn" Style="{StaticResource TransparentFlat}" Grid.Row="2" MaxWidth="650" MaxHeight="100"
+                FocusVisualStyle="{StaticResource FocusVisual}" Focusable="True" Command="{Binding SetTimerSuspendCommand}">
+            <Border CornerRadius="2" Margin="7" Background="#4285F4">
+                <Grid>
+                    <Border BorderThickness="0.5">
+                        <StackPanel VerticalAlignment="Center">
+                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Vertical" Grid.Row="1">
+                                    <TextBlock TextTrimming="WordEllipsis" TextWrapping="Wrap" Text="SLEEP" Padding="10" Foreground="white" HorizontalAlignment="Center" FontSize="64" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Button>
+        <Button x:Name="ShutdownBtn" Style="{StaticResource TransparentFlat}" MaxWidth="650" MaxHeight="100" Grid.Row="3"
+                FocusVisualStyle="{StaticResource FocusVisual}" Focusable="True" Command="{Binding SetTimerShutDownCommand}">
+            <Border CornerRadius="2" Margin="7" Background="#EA4335">
+                <Grid>
+                    <Border BorderThickness="0.5">
+                        <StackPanel VerticalAlignment="Center">
+                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Vertical" Grid.Row="1">
+                                    <TextBlock TextTrimming="WordEllipsis" TextWrapping="Wrap" Text="SHUTDOWN" Padding="10" Foreground="white" HorizontalAlignment="Center" FontSize="64" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Button>
+    </Grid>
+</Window>
