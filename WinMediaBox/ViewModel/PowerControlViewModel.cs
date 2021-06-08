@@ -23,6 +23,7 @@ namespace WinMediaBox.ViewModel
         public ICommand OpenTimerWindowCommand { protected set; get; }
         public ICommand SetTimerShutDownCommand { protected set; get; }
         public ICommand SetTimerSuspendCommand { protected set; get; }
+        public ICommand ExitAppCommand { protected set; get; }
 
         #endregion
 
@@ -35,6 +36,7 @@ namespace WinMediaBox.ViewModel
             OpenTimerWindowCommand = new RelayCommand((a) => OpenTimerWindow());
             SetTimerShutDownCommand = new RelayCommand((a) => { SetTimerShutDown(); });
             SetTimerSuspendCommand = new RelayCommand((a) => { SetTimerSuspend(); });
+            ExitAppCommand = new RelayCommand((a) => { ExitApp(); });
         }
 
         #region Commands
@@ -73,6 +75,12 @@ namespace WinMediaBox.ViewModel
             //_timerWindow = new PowerTimerWindow();
             _timerWindow.DataContext = this;
             _timerWindow.ShowDialog();
+        }
+
+        private void ExitApp()
+        {
+            SessionExiting.manualExit = true;
+            App.Current.Shutdown();
         }
         #endregion
 

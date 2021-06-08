@@ -8,6 +8,7 @@ namespace WinMediaBox.Classes
         private static OnSessionEndidngActions _actions = new OnSessionEndidngActions();
         public static bool isAnyMediaActionActive = false;
         public static List<HotKey> hotKeys = new List<HotKey>();
+        public static bool manualExit = false;
         public static void SetEndCurrentMediaAction(OnSessionEndidngActions.EndCurrentMediaAction method)
         {
             _actions.SetEndCurrentMediaAction(method);

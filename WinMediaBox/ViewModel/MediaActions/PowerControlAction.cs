@@ -38,7 +38,7 @@ namespace WinMediaBox.ViewModel.MediaActions
 
         public void Stop()
         {
-            if (isActive)
+            if (isActive && !SessionExiting.manualExit)
             {
                 isActive = false;
 

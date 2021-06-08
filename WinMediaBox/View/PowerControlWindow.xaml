@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WinMediaBox.View"
         mc:Ignorable="d"
-        Title="PowerControlWindow" Height="450" Width="800"
+        Title="PowerControlWindow" Height="650" Width="800"
         WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True" Closed="Window_Closed">
     <Window.Background>
         <SolidColorBrush Opacity="0.95" Color="#222"/>
     </Window.Background>
     <Grid VerticalAlignment="Center">
         <Grid.RowDefinitions>
+            <RowDefinition Height="150" />
             <RowDefinition Height="150" />
             <RowDefinition Height="150" />
             <RowDefinition Height="150" />
@@ -71,6 +72,25 @@
                     </StackPanel>
                 </Border>
             </Grid>
+            </Border>
+        </Button>
+        <Button x:Name="ExitBtn" Style="{StaticResource TransparentFlat}" MaxWidth="650" MaxHeight="100" Grid.Row="3"
+                FocusVisualStyle="{StaticResource FocusVisual}" Focusable="True" Command="{Binding ExitAppCommand}">
+            <Border CornerRadius="2" Margin="7" Background="#FBBC05">
+                <Grid>
+                    <Border BorderThickness="0.5">
+                        <StackPanel VerticalAlignment="Center">
+                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Vertical" Grid.Row="1">
+                                    <TextBlock TextTrimming="WordEllipsis" TextWrapping="Wrap" Text="EXIT APP" Padding="10" Foreground="#222" HorizontalAlignment="Center" FontSize="64" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </Border>
         </Button>
     </Grid>
