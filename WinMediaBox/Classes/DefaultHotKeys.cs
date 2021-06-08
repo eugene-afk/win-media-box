@@ -18,14 +18,17 @@ namespace WinMediaBox.Classes
         public DefaultHotKeys(ObservableCollection<IMediaAction> mediaActions)
         {
             _mediaActions = mediaActions;
-            _killall = new HotKey(Key.Escape, KeyModifier.None, OnCancellAllHandler);
+            //uncomment this string if you need close all proccesses except this app button
+            //_killall = new HotKey(Key.Delete, KeyModifier.None, OnCancellAllHandler);
         }
 
         public void InitBackHotKey()
         {
             if (_back == null)
             {
-                _back = new HotKey(Key.BrowserBack, KeyModifier.None, OnBackHotKeyHandler);
+                //if you use air mouse or other remote controller change Key here to comfort Key for you,
+                //I prefer BrowserBack, it's often "Back" button on remote controller
+                _back = new HotKey(Key.Escape, KeyModifier.None, OnBackHotKeyHandler);
 
             }
             SessionExiting.hotKeys.Add(this._back);
