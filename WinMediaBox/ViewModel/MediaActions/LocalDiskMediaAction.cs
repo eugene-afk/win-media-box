@@ -16,6 +16,9 @@ namespace WinMediaBox.Classes.MediaActions
     {
         public MediaActionCardsType cardsType { get; set; } = MediaActionCardsType.Thin;
         private Process _proc;
+        private VLCService _vlcService;
+        private bool _isVLC = false;
+
         public LocalDiskMediaAction()
         {
             
@@ -52,10 +55,22 @@ namespace WinMediaBox.Classes.MediaActions
             if (selectedItem != null)
             {
                 switchPage.Close();
-
                 await Task.Run(async () =>
                 {
                     SimpleSubMenuItem s = (SimpleSubMenuItem)selectedItem;
+                    try
+                    {
+                        //if vlc doesn't work - going next try with default user player and default windows player
+                        _vlcService = new VLCService();
+                        _vlcService.PlaySingleVideo(@"" + s.option1 + "");
+                        _isVLC = true;
+                        return;
+                    }
+                    catch(Exception ex)
+                    {
+                        Log.Logger.Error("*_vlcService.PlaySingleVideo* msg: " + ex);
+                    }
+
                     _proc = new Process()
                     {
                         StartInfo = new ProcessStartInfo()
@@ -65,6 +80,7 @@ namespace WinMediaBox.Classes.MediaActions
                             UseShellExecute = true
                         }
                     };
+
                     try
                     {
                         _proc.Start();
@@ -74,6 +90,7 @@ namespace WinMediaBox.Classes.MediaActions
                         Log.Logger.Error("*LocalDiskMediaAction Start Process* msg: " + ex);
                         return;
                     }
+
                     //if used not defaul windows player
                     try
                     {
@@ -110,6 +127,13 @@ namespace WinMediaBox.Classes.MediaActions
                 if (selectedItem != null)
                 {
                     selectedItem = null;
+
+                    if (_isVLC)
+                    {
+                        _vlcService.Dispose();
+                        _isVLC = false;
+                        return;
+                    }
 
                     //try to kill process if not default windows player
                     try
