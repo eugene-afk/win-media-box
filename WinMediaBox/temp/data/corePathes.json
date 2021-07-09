@@ -1,5 +1,6 @@
 {
-      "moviesBasePath": "D:/",
-      "postersBasePath": "D:/",
-      "ipTVPlayerPath": "D:/"
+  "moviesBasePath": "D:/",
+  "postersBasePath": "D:/",
+  "ipTVPlayerPath": "D:/",
+  "ipTVPlaylist":  ""
 }

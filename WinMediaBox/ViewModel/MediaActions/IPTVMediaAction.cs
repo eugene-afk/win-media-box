@@ -18,6 +18,8 @@ namespace WinMediaBox.Classes
         public MediaActionCardsType cardsType { get; set; } = MediaActionCardsType.Standart;
         private Process _proc;
         private HotKey _hotkeyF;
+        private VLCService _vlcService;
+        private bool _isVLC;
 
         public IPTVMediaAction()
         {
@@ -32,7 +34,13 @@ namespace WinMediaBox.Classes
             {
                 isActive = true;
                 SessionExiting.SetEndCurrentMediaAction(new OnSessionEndidngActions.EndCurrentMediaAction(Stop));
-                await StartWithCustomPlayer();
+                if(UCommons.ipTVPlayerPath != "") 
+                {
+                    await StartWithCustomPlayer();
+                    return;
+                }
+                StartWithVLC();
+                _isVLC = true;
             }
         }
 
@@ -70,14 +78,14 @@ namespace WinMediaBox.Classes
             await SendKeys.Send(_proc.ProcessName, 0x35);
         }
 
-        //for future update with vlc service
         private void StopVLC()
         {
-
+            _vlcService.Dispose();
         }
-        //for future update with vlc service
+        
         private void StartWithVLC()
         {
+            _vlcService = new VLCService();
 
         }
 
@@ -111,7 +119,13 @@ namespace WinMediaBox.Classes
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);
                 App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
 
-                StopCustomPlayer();
+                if (!_isVLC)
+                {
+                    StopCustomPlayer();
+                    return;
+                }
+                StopVLC();
+                _isVLC = false;
             }
         }
 

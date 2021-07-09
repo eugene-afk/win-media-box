@@ -11,6 +11,7 @@ namespace WinMediaBox.Classes
         public static string moviesBasePath;
         public static string postersBasePath;
         public static string ipTVPlayerPath;
+        public static string ipTVPlaylist;
         private static readonly string[] imageExtensions = { ".JPG", ".JPEG", ".PNG" };
 
         public static void Init()
@@ -26,6 +27,7 @@ namespace WinMediaBox.Classes
             moviesBasePath = item.moviesBasePath;
             postersBasePath = item.postersBasePath;
             ipTVPlayerPath = item.ipTVPlayerPath;
+            ipTVPlaylist = item.ipTVPlaylist;
         }
 
         private static void InitLogger()

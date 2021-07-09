@@ -6,5 +6,6 @@ namespace WinMediaBox.Classes
         public string moviesBasePath;
         public string postersBasePath;
         public string ipTVPlayerPath;
+        public string ipTVPlaylist;
     }
 }
