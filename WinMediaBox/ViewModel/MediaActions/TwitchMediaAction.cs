@@ -13,7 +13,6 @@ namespace WinMediaBox.ViewModel.MediaActions
 
         public TwitchMediaAction()
         {
-            items = new SubMenuItems(new TwitchBuilder());
             type = EmbedWebType.Twitch;
             img = "/img/twitch.png";
             color = "#61429E";
@@ -30,6 +29,7 @@ namespace WinMediaBox.ViewModel.MediaActions
         {
             if (!isActive)
             {
+                items = new SubMenuItems(new TwitchBuilder());
                 isActive = true;
                 await Task.Run(() =>
                 {

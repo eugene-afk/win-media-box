@@ -26,6 +26,7 @@ namespace WinMediaBox.ViewModel.MediaActions
         {
             if (isActive)
             {
+                items = null;
                 isActive = false;
 
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);

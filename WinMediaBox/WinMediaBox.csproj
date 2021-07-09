@@ -40,7 +40,7 @@
     <Resource Include="Fonts\NotoSansJP-Medium.ttf" />
     <Resource Include="Fonts\NotoSansJP-Regular.ttf" />
     <Resource Include="Fonts\NotoSansJP-Thin.ttf" />
-    <Resource Include="img\icon.ico" />
+    <Resource Include="img\icon_old.ico" />
     <Resource Include="img\iptv.png" />
     <Resource Include="img\localstorage.png" />
     <Resource Include="img\power.png" />

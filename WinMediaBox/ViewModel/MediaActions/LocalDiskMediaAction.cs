@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WinMediaBox.Classes.Tools;
@@ -17,7 +18,7 @@ namespace WinMediaBox.Classes.MediaActions
         private Process _proc;
         public LocalDiskMediaAction()
         {
-            items = new SubMenuItems(new LocalBuilder());
+            
             img = "/img/localstorage.png";
             color = "#303f9f";
             title = "Local Storage";
@@ -33,6 +34,7 @@ namespace WinMediaBox.Classes.MediaActions
         {
             if (!isActive)
             {
+                items = new SubMenuItems(new LocalBuilder());
                 isActive = true;
                 await Task.Run(() =>
                 {
@@ -99,6 +101,7 @@ namespace WinMediaBox.Classes.MediaActions
         {
             if (isActive)
             {
+                items = null;
                 isActive = false;
 
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);

@@ -12,7 +12,6 @@ namespace WinMediaBox.Classes
         public MediaActionCardsType cardsType { get; set; } = MediaActionCardsType.Standart;
         public YouTubeMediaAction()
         {
-            items = new SubMenuItems(new YouTubeBuilder());
             type = EmbedWebType.YouTube;
             img = "/img/yt.png";
             color = "#C41C20";
@@ -29,6 +28,7 @@ namespace WinMediaBox.Classes
         {
             if (!isActive)
             {
+                items = new SubMenuItems(new YouTubeBuilder());
                 isActive = true;
                 await Task.Run(() =>
                 {

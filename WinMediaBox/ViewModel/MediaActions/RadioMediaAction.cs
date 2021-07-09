@@ -16,7 +16,6 @@ namespace WinMediaBox.Classes
 
         public RadioMediaAction()
         {
-            items = new SubMenuItems(new RadioBuilder());
             img = "/img/radio.png";
             color = "#ff8a50";
             title = "Radio";
@@ -32,6 +31,7 @@ namespace WinMediaBox.Classes
         {
             if (!isActive)
             {
+                items = new SubMenuItems(new RadioBuilder());
                 isActive = true;
                 await Task.Run(() =>
                 {
@@ -57,6 +57,7 @@ namespace WinMediaBox.Classes
         {
             if (isActive)
             {
+                items = null;
                 isActive = false;
 
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);

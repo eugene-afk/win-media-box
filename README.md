@@ -24,4 +24,4 @@ Although in current state this application match my needs and works stable enoug
 
 * **Content management**. For now user need to edit json config files to manage content, but it's not very comfortable and need to be done from app functionality.
 * **Settings**. As in previous point to edit some of customizeble things user need to work with app filesystem and manual replace files etc. So a better way will be to add this functionality inside app. Also this module can include some properties that for now hardcoded in app like remote controller buttons events, some other default properties, pathes etc.
-* **Memory optimizations**. App has some problems with RAM usage, due to some not the most optimal constructions in business logic usage of RAM can be excessive.
+* ~~**Memory optimizations**. App has some problems with RAM usage, due to some not the most optimal constructions in business logic usage of RAM can be excessive.~~ note: after some observation and testing, no critical memory issues were noticed, but a small optimization was done.
