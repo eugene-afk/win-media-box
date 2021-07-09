@@ -20,6 +20,7 @@ namespace WinMediaBox.Classes
         private HotKey _hotkeyF;
         private VLCService _vlcService;
         private bool _isVLC;
+        private M3U8Playlist _playlist;
 
         public IPTVMediaAction()
         {
@@ -86,6 +87,10 @@ namespace WinMediaBox.Classes
         private void StartWithVLC()
         {
             _vlcService = new VLCService();
+            if(_playlist == null)
+            {
+                _playlist = new M3U8Playlist(UCommons.ipTVPlaylist);
+            }
 
         }
 
