@@ -13,8 +13,14 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!--INFO_PANEL-->
-        <Rectangle x:Name="test" Fill="Blue" Width="120" Height="120" Grid.Row="0" Visibility="Collapsed" Margin="20" />
+        <Grid x:Name="infoBlock" Grid.Row="0" Height="100" Margin="20" Visibility="{Binding infoBlockVisible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding channelNumber}" Grid.Column="0" Foreground="#f7f7f7" FontSize="72" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding channelName}" Grid.Column="1" Foreground="#f7f7f7" FontSize="42" VerticalAlignment="Center"></TextBlock>
+        </Grid>
         <vlc:VideoView x:Name="videoView" Grid.Row="1" Visibility="Visible" />
     </Grid>
 </Window>
