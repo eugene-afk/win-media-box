@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WinMediaBox.Classes.Tools;
 using WinMediaBox.Interfaces;
 using WinMediaBox.View;
@@ -55,22 +56,23 @@ namespace WinMediaBox.Classes.MediaActions
             if (selectedItem != null)
             {
                 switchPage.Close();
+
+                SimpleSubMenuItem s = (SimpleSubMenuItem)selectedItem;
+                try
+                {
+                    //if vlc doesn't work - going next try with default user player and default windows player
+                    _vlcService = new VLCService();
+                    _vlcService.PlaySingleVideo(@"" + s.option1 + "");
+                    _isVLC = true;
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger.Error("*_vlcService.PlaySingleVideo* msg: " + ex);
+                }
+
                 await Task.Run(async () =>
                 {
-                    SimpleSubMenuItem s = (SimpleSubMenuItem)selectedItem;
-                    try
-                    {
-                        //if vlc doesn't work - going next try with default user player and default windows player
-                        _vlcService = new VLCService();
-                        _vlcService.PlaySingleVideo(@"" + s.option1 + "");
-                        _isVLC = true;
-                        return;
-                    }
-                    catch(Exception ex)
-                    {
-                        Log.Logger.Error("*_vlcService.PlaySingleVideo* msg: " + ex);
-                    }
-
                     _proc = new Process()
                     {
                         StartInfo = new ProcessStartInfo()
