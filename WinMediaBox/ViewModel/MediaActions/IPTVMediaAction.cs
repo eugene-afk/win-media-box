@@ -9,6 +9,7 @@ using System.Windows.Input;
 using WinMediaBox.Classes.MediaActions;
 using WinMediaBox.Classes.Tools;
 using WinMediaBox.Interfaces;
+using WinMediaBox.View;
 using WinMediaBox.ViewModel.MediaActions;
 
 namespace WinMediaBox.Classes
@@ -18,8 +19,8 @@ namespace WinMediaBox.Classes
         public MediaActionCardsType cardsType { get; set; } = MediaActionCardsType.Standart;
         private Process _proc;
         private HotKey _hotkeyF;
-        private VLCService _vlcService;
         private bool _isVLC;
+        private VLCPlayerWindow _playerWindow;
         private M3U8Playlist _playlist;
 
         public IPTVMediaAction()
@@ -81,17 +82,17 @@ namespace WinMediaBox.Classes
 
         private void StopVLC()
         {
-            _vlcService.Dispose();
+            _playerWindow.Close();
         }
         
         private void StartWithVLC()
         {
-            _vlcService = new VLCService();
-            if(_playlist == null)
+            if (_playlist == null)
             {
                 _playlist = new M3U8Playlist(UCommons.ipTVPlaylist);
             }
-
+            _playerWindow = new VLCPlayerWindow(_playlist);
+            _playerWindow.Show();
         }
 
         private void StopCustomPlayer()

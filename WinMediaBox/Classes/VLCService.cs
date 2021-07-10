@@ -11,24 +11,24 @@ namespace WinMediaBox.Classes
 {
     public class VLCService: IDisposable
     {
-        private LibVLC _libVLC;
-        private MediaPlayer _player;
+        public LibVLC libVLC;
+        public MediaPlayer player;
         private List<HotKey> _hotKeys;
         private int _offset = 60000;
 
         public VLCService()
         {
             Core.Initialize();
-            _libVLC = new LibVLC();
+            libVLC = new LibVLC();
         }
 
         public void PlaySingleVideo(string path)
         {
-            Media media = new Media(_libVLC, new Uri(path));
-            _player = new MediaPlayer(media);
+            Media media = new Media(libVLC, new Uri(path));
+            player = new MediaPlayer(media);
             media.Dispose();
-            _player.Fullscreen = true;
-            _player.Play();
+            player.Fullscreen = true;
+            player.Play();
             AttachHotKeys();
         }
 
@@ -47,23 +47,23 @@ namespace WinMediaBox.Classes
 
         private void PausePlayer(HotKey hotKey)
         {
-            if (_player.CanPause)
+            if (player.CanPause)
             {
-                _player.Pause();
+                player.Pause();
                 return;
             }
-            _player.Play();
+            player.Play();
 
         }
 
         private void Rewind(HotKey hotkey)
         {
-            _player.Time -= _offset;
+            player.Time -= _offset;
         }
 
         private void Forward(HotKey hotkey)
         {
-            _player.Time += _offset;
+            player.Time += _offset;
         }
 
         public void Dispose()
@@ -76,8 +76,8 @@ namespace WinMediaBox.Classes
                 }
                 _hotKeys.Clear();
             }
-            _libVLC.Dispose();
-            _player.Dispose();
+            libVLC.Dispose();
+            player.Dispose();
         }
     }
 }

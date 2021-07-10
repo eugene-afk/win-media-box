@@ -1,0 +1,20 @@
+﻿<Window x:Class="WinMediaBox.View.VLCPlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinMediaBox.View"
+        xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True"
+        Title="VLCPlayerWindow" Height="450" Width="800" KeyUp="Window_KeyUp" Closed="Window_Closed">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--INFO_PANEL-->
+        <Rectangle x:Name="test" Fill="Blue" Width="120" Height="120" Grid.Row="0" Visibility="Collapsed" Margin="20" />
+        <vlc:VideoView x:Name="videoView" Grid.Row="1" Visibility="Visible" />
+    </Grid>
+</Window>
