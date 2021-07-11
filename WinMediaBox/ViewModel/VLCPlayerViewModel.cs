@@ -103,7 +103,7 @@ namespace WinMediaBox.ViewModel
                 return;
             }
 
-            if (key >= Key.D0 && key <= Key.D9)
+            if ((key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9))
             {
                 if (!isInfoBlockVisible)
                 {
@@ -111,7 +111,8 @@ namespace WinMediaBox.ViewModel
                     Task.Run(() => ShowInfoBlock(true));
                 }
                 string num = channelNumber != 0 ? channelNumber.ToString() : "";
-                var value = $"{num}{key.ToString().Replace("D", "")}";
+                string keyVal = key.ToString().Contains("NumPad") ? key.ToString().Replace("NumPad", "") : key.ToString().Replace("D", "");
+                var value = $"{num}{keyVal}";
 
                 channelNumber = Convert.ToInt32(value);
                 return;
