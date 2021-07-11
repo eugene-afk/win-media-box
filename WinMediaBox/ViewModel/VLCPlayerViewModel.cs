@@ -1,6 +1,7 @@
 ﻿using LibVLCSharp.Shared;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -38,7 +39,9 @@ namespace WinMediaBox.ViewModel
         private int _channelsCount;
         public bool isInfoBlockVisible => infoBlockVisible != Visibility.Collapsed;
         private bool disposed = false;
-
+        private CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+        //private CancellationToken token => cancelTokenSource.Token;
+        private bool forcingChannel = false;
 
         public VLCPlayerViewModel(M3U8Playlist playlist)
         {
@@ -82,18 +85,24 @@ namespace WinMediaBox.ViewModel
         {
             if (!isInfoBlockVisible)
             {
-                infoBlockVisible = Visibility.Visible;
-                await Task.Delay(3000);
-                infoBlockVisible = Visibility.Collapsed;
-                if (force)
+                try
                 {
-                    if (channelNumber >= 0 && channelNumber <= _channelsCount && channelNumber != _currentChannel.number)
+                    infoBlockVisible = Visibility.Visible;
+                    await Task.Delay(3000);
+                    infoBlockVisible = Visibility.Collapsed;
+                    if (force)
                     {
-                        SetNewMedia(channelNumber - 1);
-                        return;
+                        if (channelNumber >= 0 && channelNumber <= _channelsCount && channelNumber != _currentChannel.number)
+                        {
+                            SetNewMedia(channelNumber - 1);
+                            forcingChannel = false;
+                            return;
+                        }
+                        forcingChannel = false;
+                        channelNumber = _currentChannel.number;
                     }
-                    channelNumber = _currentChannel.number;
                 }
+                catch {}
             }
         }
 
@@ -107,11 +116,8 @@ namespace WinMediaBox.ViewModel
 
             if ((key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9))
             {
-                if (!isInfoBlockVisible)
-                {
-                    channelNumber = 0;
-                    Task.Run(() => ShowInfoBlock(true));
-                }
+                CheckInfoBlockState();
+                forcingChannel = true;
                 string num = channelNumber != 0 ? channelNumber.ToString() : "";
                 string keyVal = key.ToString().Contains("NumPad") ? key.ToString().Replace("NumPad", "") : key.ToString().Replace("D", "");
                 var value = $"{num}{keyVal}";
@@ -144,6 +150,24 @@ namespace WinMediaBox.ViewModel
             }
         }
 
+        private void CheckInfoBlockState()
+        {
+            if (!isInfoBlockVisible && !forcingChannel)
+            {
+                channelNumber = 0;
+                Task.Run(() => ShowInfoBlock(true));
+                return;
+            }
+            
+            if (!forcingChannel)
+            {
+                channelNumber = 0;
+                cancelTokenSource.Cancel();
+                infoBlockVisible = Visibility.Collapsed;
+                Task.Run(() => ShowInfoBlock(true));
+            }
+        }
+
         private void SetNewMedia(int num)
         {
             _currentChannel = _playlist[num];
@@ -158,6 +182,7 @@ namespace WinMediaBox.ViewModel
         {
             disposed = true;
             vlcService.Dispose();
+            cancelTokenSource.Dispose();
         }
     }
 }
