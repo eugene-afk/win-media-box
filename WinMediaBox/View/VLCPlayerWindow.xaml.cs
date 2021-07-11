@@ -23,6 +23,7 @@ namespace WinMediaBox.View
         {
             videoView.MediaPlayer = _vm.vlcService.player;
             _vm.vlcService.player.Play();
+            Task.Run(() => _vm.PlayingObserver());
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)

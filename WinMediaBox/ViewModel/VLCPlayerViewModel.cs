@@ -37,6 +37,8 @@ namespace WinMediaBox.ViewModel
         private M3U8Item _currentChannel;
         private int _channelsCount;
         public bool isInfoBlockVisible => infoBlockVisible != Visibility.Collapsed;
+        private bool disposed = false;
+
 
         public VLCPlayerViewModel(M3U8Playlist playlist)
         {
@@ -130,6 +132,18 @@ namespace WinMediaBox.ViewModel
             }
         }
 
+        public async Task PlayingObserver()
+        {
+            while (!disposed)
+            {
+                await Task.Delay(3000);
+                if (!disposed && !vlcService.player.IsPlaying)
+                {
+                    SetNewMedia(channelNumber - 1);
+                }
+            }
+        }
+
         private void SetNewMedia(int num)
         {
             _currentChannel = _playlist[num];
@@ -142,6 +156,7 @@ namespace WinMediaBox.ViewModel
 
         public void Dispose()
         {
+            disposed = true;
             vlcService.Dispose();
         }
     }
