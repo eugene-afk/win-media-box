@@ -39,8 +39,6 @@ namespace WinMediaBox.ViewModel
         private int _channelsCount;
         public bool isInfoBlockVisible => infoBlockVisible != Visibility.Collapsed;
         private bool disposed = false;
-        private CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
-        //private CancellationToken token => cancelTokenSource.Token;
         private bool forcingChannel = false;
 
         public VLCPlayerViewModel(M3U8Playlist playlist)
@@ -85,24 +83,22 @@ namespace WinMediaBox.ViewModel
         {
             if (!isInfoBlockVisible)
             {
-                try
+
+                infoBlockVisible = Visibility.Visible;
+                await Task.Delay(3000);
+                infoBlockVisible = Visibility.Collapsed;
+                if (force)
                 {
-                    infoBlockVisible = Visibility.Visible;
-                    await Task.Delay(3000);
-                    infoBlockVisible = Visibility.Collapsed;
-                    if (force)
+                    if (channelNumber >= 0 && channelNumber <= _channelsCount && channelNumber != _currentChannel.number)
                     {
-                        if (channelNumber >= 0 && channelNumber <= _channelsCount && channelNumber != _currentChannel.number)
-                        {
-                            SetNewMedia(channelNumber - 1);
-                            forcingChannel = false;
-                            return;
-                        }
+                        SetNewMedia(channelNumber - 1);
                         forcingChannel = false;
-                        channelNumber = _currentChannel.number;
+                        return;
                     }
+                    forcingChannel = false;
+                    channelNumber = _currentChannel.number;
                 }
-                catch {}
+
             }
         }
 
@@ -162,7 +158,6 @@ namespace WinMediaBox.ViewModel
             if (!forcingChannel)
             {
                 channelNumber = 0;
-                cancelTokenSource.Cancel();
                 infoBlockVisible = Visibility.Collapsed;
                 Task.Run(() => ShowInfoBlock(true));
             }
@@ -182,7 +177,6 @@ namespace WinMediaBox.ViewModel
         {
             disposed = true;
             vlcService.Dispose();
-            cancelTokenSource.Dispose();
         }
     }
 }
