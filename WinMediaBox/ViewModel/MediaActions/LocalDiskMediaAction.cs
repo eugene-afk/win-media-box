@@ -1,11 +1,10 @@
 ﻿using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using WinMediaBox.Classes.Tools;
 using WinMediaBox.Interfaces;
+using WinMediaBox.Types;
 using WinMediaBox.View;
 using WinMediaBox.ViewModel.MediaActions;
 using WinMediaBox.ViewModel.SubMediaActions;
@@ -13,12 +12,14 @@ using WinMediaBox.ViewModel.SubMediaActions.Builders;
 
 namespace WinMediaBox.Classes.MediaActions
 {
-    public class LocalDiskMediaAction : MediaActionWSubBase, IMediaAction, IResizable, ISubMediaAction
+    public class LocalDiskMediaAction : MediaActionWSubBase, IMediaAction, IResizable, ISubMediaAction, IPlayerSelectable
     {
         public MediaActionCardsType cardsType { get; set; } = MediaActionCardsType.Thin;
         private Process _proc;
         private VLCService _vlcService;
         private bool _isVLC = false;
+        private PlayerSelectionWindow _selectionWindow;
+        private SimpleSubMenuItem _simpleSelectedItem;
 
         public LocalDiskMediaAction()
         {
@@ -49,70 +50,96 @@ namespace WinMediaBox.Classes.MediaActions
             }
         }
 
-        public async void StartWith()
+        public void SetPlayer(PlayerType type)
+        {
+            _selectionWindow.Close();
+            _selectionWindow = null;
+            switch (type)
+            {
+                case PlayerType.Default:
+                    StartWithDefaultPlayer();
+                    break;
+                case PlayerType.VLC:
+                    StartWithVLCPlayer();
+                    break;
+                default:
+                    StartWithDefaultPlayer();
+                    break;
+            }
+        }
+
+        public void StartWithVLCPlayer()
+        {
+            try
+            {
+                //if vlc doesn't work - going next try with default user player and default windows player
+                _vlcService = new VLCService();
+                _vlcService.PlaySingleVideo(@"" + _simpleSelectedItem.option1 + "");
+                _isVLC = true;
+                return;
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error("*_vlcService.PlaySingleVideo* msg: " + ex);
+            }
+        }
+
+        public async void StartWithDefaultPlayer()
         {
             //In this case video files opens in default win10 Movies&TV App 
             //with always fullscreen settings (https://winaero.com/make-movies-tv-always-play-fullscreen-windows-10/)
-            if (selectedItem != null)
+            await Task.Run(async () =>
             {
-                switchPage.Close();
+                _proc = new Process()
+                {
+                    StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = @"" + _simpleSelectedItem.option1 + "",
+                        CreateNoWindow = false,
+                        UseShellExecute = true
+                    }
+                };
 
-                SimpleSubMenuItem s = (SimpleSubMenuItem)selectedItem;
                 try
                 {
-                    //if vlc doesn't work - going next try with default user player and default windows player
-                    _vlcService = new VLCService();
-                    _vlcService.PlaySingleVideo(@"" + s.option1 + "");
-                    _isVLC = true;
-                    return;
+                    _proc.Start();
                 }
                 catch (Exception ex)
                 {
-                    Log.Logger.Error("*_vlcService.PlaySingleVideo* msg: " + ex);
+                    Log.Logger.Error("*LocalDiskMediaAction Start Process* msg: " + ex);
+                    return;
                 }
 
-                await Task.Run(async () =>
+                //if used not defaul windows player
+                try
                 {
-                    _proc = new Process()
-                    {
-                        StartInfo = new ProcessStartInfo()
-                        {
-                            FileName = @"" + s.option1 + "",
-                            CreateNoWindow = false,
-                            UseShellExecute = true
-                        }
-                    };
-
+                    SendKeys.SetForegroundWindow(_proc.ProcessName);
+                }
+                catch (Exception ex)
+                {
+                    //try with default windows player
                     try
                     {
-                        _proc.Start();
+                        SendKeys.SetForegroundWindow("Video.UI");
+                        await SendKeys.SendMouseLeft();
                     }
-                    catch(Exception ex)
+                    catch (Exception e)
                     {
-                        Log.Logger.Error("*LocalDiskMediaAction Start Process* msg: " + ex);
-                        return;
+                        Log.Logger.Error("*StartWithLocalItem SetForegroundWindow Video.UI* msg: " + e);
                     }
+                    Log.Logger.Error("*StartWithLocalItem SetForegroundWindow Not Default* msg: " + ex);
+                }
+            });
+        }
 
-                    //if used not defaul windows player
-                    try
-                    {
-                        SendKeys.SetForegroundWindow(_proc.ProcessName);
-                    }
-                    catch(Exception ex)
-                    {
-                        //try with default windows player
-                        try
-                        {
-                            SendKeys.SetForegroundWindow("Video.UI");
-                            await SendKeys.SendMouseLeft();
-                        }
-                        catch(Exception e)
-                        {
-                            Log.Logger.Error("*StartWithLocalItem SetForegroundWindow Video.UI* msg: " + e);
-                        }
-                        Log.Logger.Error("*StartWithLocalItem SetForegroundWindow Not Default* msg: " + ex);
-                    }
-                });
+        public void StartWith()
+        {
+            if (selectedItem != null)
+            {
+                switchPage.Close();
+                _simpleSelectedItem = (SimpleSubMenuItem)selectedItem;
+                _selectionWindow = new PlayerSelectionWindow(this);
+                _selectionWindow.Show();
             }
         }
 
@@ -129,6 +156,13 @@ namespace WinMediaBox.Classes.MediaActions
                 if (selectedItem != null)
                 {
                     selectedItem = null;
+
+                    if (_selectionWindow != null)
+                    {
+                        _selectionWindow.Close();
+                        _selectionWindow = null;
+                        return;
+                    }
 
                     if (_isVLC)
                     {
@@ -162,8 +196,8 @@ namespace WinMediaBox.Classes.MediaActions
                     }
                     return;
                 }
-
                 switchPage.Close();
+                switchPage = null;
             }
         }
 

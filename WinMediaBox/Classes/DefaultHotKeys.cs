@@ -12,6 +12,7 @@ namespace WinMediaBox.Classes
     public class DefaultHotKeys
     {
         private HotKey _back;
+        private HotKey _backBrowser;
         private HotKey _killall;
         private ObservableCollection<IMediaAction> _mediaActions;
 
@@ -31,7 +32,12 @@ namespace WinMediaBox.Classes
                 _back = new HotKey(Key.Escape, KeyModifier.None, OnBackHotKeyHandler);
 
             }
+            if(_backBrowser == null)
+            {
+                _backBrowser = new HotKey(Key.BrowserBack, KeyModifier.None, OnBackHotKeyHandler);
+            }
             SessionExiting.hotKeys.Add(this._back);
+            SessionExiting.hotKeys.Add(this._backBrowser);
         }
 
         private void OnBackHotKeyHandler(HotKey hotKey)
@@ -40,6 +46,8 @@ namespace WinMediaBox.Classes
             //_hotKey.Unregister();
             _back.Dispose();
             _back = null;
+            _backBrowser.Dispose();
+            _backBrowser = null;
             try
             {
                 var ma = _mediaActions.Where(i => i.isActive == true).First();

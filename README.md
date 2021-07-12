@@ -10,9 +10,9 @@ Win Media Box is a media application for Windows platform include possibility to
 
 ## Notes and features
 * **Windows API**. Used by app for various interactions like send keys, shortcuts and power control. 
-* **IP-TV**. To use this module you need pre-installed ip-tv player ([for example](https://borpas.info/iptvplayer)). Application just control open, close and can resize player, nothing special.
+* **IP-TV**. To use this module you need pre-installed ip-tv player ([for example](https://borpas.info/iptvplayer)). Application just control open, close and can resize player, nothing special. Also available experimental option to use vlc library for playing iptv.
 * **Radio**. For work with radio streams I used WPF MediaElement component.
-* **Local media**. For now Local Storage module works only with files in video formats. I prefer to use as default player pre-installed in Windows (it's used in app by default). For this case you may need some extra configs for this player like enable always fullscreen.
+* **Local media**. For now Local Storage module works only with files in video formats. I prefer to use as default player pre-installed in Windows (it's used in app by default). For this case you may need some extra configs for this player like enable always fullscreen. Also available experimental option to use vlc library for playing video content. 
 * **WEB resources integration**. For YouTube and Twitch integration I decided to use embed players with WPF WebView component.
 * **Customization**. User can customize appearance of app by edditing some settings in config json files and image files (like background of main screen, cards color, etc.)
 * **Content management**. This part is not very easy to use, for now all management of content can be done by edditing json config files.
@@ -24,4 +24,8 @@ Although in current state this application match my needs and works stable enoug
 
 * **Content management**. For now user need to edit json config files to manage content, but it's not very comfortable and need to be done from app functionality.
 * **Settings**. As in previous point to edit some of customizeble things user need to work with app filesystem and manual replace files etc. So a better way will be to add this functionality inside app. Also this module can include some properties that for now hardcoded in app like remote controller buttons events, some other default properties, pathes etc.
+* **M3U Parser**. The current parser for m3u playlists is a bit not universal, so more work will have to be done on that.
+* **Input controls improvement of vlc components**. For now application can handle only very basic commands, this functionality can be expanded further.
 * ~~**Memory optimizations**. App has some problems with RAM usage, due to some not the most optimal constructions in business logic usage of RAM can be excessive.~~ note: after some observation and testing, no critical memory issues were noticed, but a small optimization was done.
+* ~~**Added VLC support** for iptv and local media~~
+* ~~**Player selection window for playing media files and iptv**. This choice had to be added after adding the vlc libraries in app.~~

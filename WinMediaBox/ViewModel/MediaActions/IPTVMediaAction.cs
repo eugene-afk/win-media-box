@@ -1,20 +1,18 @@
-﻿using LibVLCSharp.Shared;
-using Serilog;
+﻿using Serilog;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WinMediaBox.Classes.MediaActions;
 using WinMediaBox.Classes.Tools;
 using WinMediaBox.Interfaces;
+using WinMediaBox.Types;
 using WinMediaBox.View;
 using WinMediaBox.ViewModel.MediaActions;
 
 namespace WinMediaBox.Classes
 {
-    public class IPTVMediaAction : MediaActionBase, IMediaAction, IResizable
+    public class IPTVMediaAction : MediaActionBase, IMediaAction, IResizable, IPlayerSelectable
     {
         public MediaActionCardsType cardsType { get; set; } = MediaActionCardsType.Standart;
         private Process _proc;
@@ -22,6 +20,7 @@ namespace WinMediaBox.Classes
         private bool _isVLC;
         private VLCPlayerWindow _playerWindow;
         private M3U8Playlist _playlist;
+        private PlayerSelectionWindow _selectionWindow;
 
         public IPTVMediaAction()
         {
@@ -35,18 +34,37 @@ namespace WinMediaBox.Classes
             if (!isActive)
             {
                 isActive = true;
-                SessionExiting.SetEndCurrentMediaAction(new OnSessionEndidngActions.EndCurrentMediaAction(Stop));
-                if(UCommons.ipTVPlayerPath != "") 
+                await Task.Run(() => SessionExiting.SetEndCurrentMediaAction(new OnSessionEndidngActions.EndCurrentMediaAction(Stop)));
+                if (UCommons.ipTVPlayerPath != "") 
                 {
-                    await StartWithCustomPlayer();
+                    _selectionWindow = new PlayerSelectionWindow(this);
+                    _selectionWindow.Show();
                     return;
                 }
-                StartWithVLC();
+                StartWithVLCPlayer();
                 _isVLC = true;
             }
         }
 
-        private async Task StartWithCustomPlayer()
+        public async void SetPlayer(PlayerType type)
+        {
+            _selectionWindow.Close();
+            _selectionWindow = null;
+            switch (type)
+            {
+                case PlayerType.Default:
+                    await StartWithDefaultPlayer();
+                    break;
+                case PlayerType.VLC:
+                    StartWithVLCPlayer();
+                    break;
+                default:
+                    await StartWithDefaultPlayer();
+                    break;
+            }
+        }
+
+        public async Task StartWithDefaultPlayer()
         {
             ProcessStartInfo  info = new ProcessStartInfo(@"" + UCommons.ipTVPlayerPath + "");
             info.CreateNoWindow = false;
@@ -68,8 +86,12 @@ namespace WinMediaBox.Classes
                 return;
             }
             _hotkeyF = new HotKey(Key.Up, KeyModifier.None, ToggleFullScreen);
-            
 
+            await DefaultPlayersDelayAndSendKeys();
+        }
+
+        private async Task DefaultPlayersDelayAndSendKeys()
+        {
             //wait until player init
             await Task.Delay(10000);
             //sending F for fullscreen
@@ -83,10 +105,12 @@ namespace WinMediaBox.Classes
         private void StopVLC()
         {
             _playerWindow.Close();
+            _playerWindow = null;
         }
         
-        private void StartWithVLC()
+        public void StartWithVLCPlayer()
         {
+            _isVLC = true;
             if (_playlist == null)
             {
                 _playlist = new M3U8Playlist(UCommons.ipTVPlaylist);
@@ -125,6 +149,12 @@ namespace WinMediaBox.Classes
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);
                 App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
 
+                if(_selectionWindow != null)
+                {
+                    _selectionWindow.Close();
+                    _selectionWindow = null;
+                    return;
+                }
                 if (!_isVLC)
                 {
                     StopCustomPlayer();
