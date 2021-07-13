@@ -72,7 +72,7 @@ namespace WinMediaBox.ViewModel
         private void Prev()
         {
             int num = _currentChannel.number - 2;
-            if (num <= 0)
+            if (num < 0)
             {
                 num = _channelsCount - 1;
             }
