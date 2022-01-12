@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using WinMediaBox.Classes;
 using WinMediaBox.Interfaces;
+using WinMediaBox.Types;
 
 namespace WinMediaBox.ViewModel.SubMediaActions
 {
@@ -9,6 +10,8 @@ namespace WinMediaBox.ViewModel.SubMediaActions
         private string _htmlContent;
         [JsonProperty("channelID")]
         public string option1 { get; set; }
+        [JsonIgnore]
+        public MediaType type { get; set; } = MediaType.Default;
         
         public string html
         {

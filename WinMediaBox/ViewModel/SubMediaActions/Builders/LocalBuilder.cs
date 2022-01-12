@@ -21,10 +21,35 @@ namespace WinMediaBox.ViewModel.SubMediaActions.Builders
                 AddReloadDataItem(items, cardWidth);
 
                 var files = Directory.GetFiles(pathBase);
+                var directories = Directory.GetDirectories(pathBase);
                 var posters = Directory.GetFiles(postersPath);
+
+                foreach(var i in directories)
+                {
+                    var dirName = Path.GetFileName(i);
+                    if (!dirName.Contains("series_"))
+                        continue;
+                    var FormattedDirName = dirName.Replace("series_", "");
+                    SimpleSubMenuItem item = new();
+                    item.option1 = i;
+                    item.title = FormattedDirName;
+                    string poster = posters.Where(x => Path.GetFileNameWithoutExtension(x) == FormattedDirName).FirstOrDefault();
+                    item.img = poster;
+                    if (!UCommons.isValidImage(poster))
+                    {
+                        item.img = Path.Combine(Directory.GetCurrentDirectory(), "images/default.png");
+                    }
+                    if (string.IsNullOrEmpty(item.color) || !item.color.Contains("#"))
+                    {
+                        item.color = "#222";
+                    }
+                    item.cardWidth = cardWidth;
+                    items.Add(item);
+                }
+
                 foreach (var i in files)
                 {
-                    SimpleSubMenuItem item = new SimpleSubMenuItem();
+                    SimpleSubMenuItem item = new();
                     item.option1 = i;
                     item.title = Path.GetFileNameWithoutExtension(i);
                     string poster = posters.Where(x => Path.GetFileNameWithoutExtension(x) == Path.GetFileNameWithoutExtension(i)).FirstOrDefault();
