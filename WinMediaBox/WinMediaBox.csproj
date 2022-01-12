@@ -15,6 +15,8 @@
     <None Remove="Fonts\NotoSansJP-Medium.ttf" />
     <None Remove="Fonts\NotoSansJP-Regular.ttf" />
     <None Remove="Fonts\NotoSansJP-Thin.ttf" />
+    <None Remove="img\file.png" />
+    <None Remove="img\folder.png" />
     <None Remove="img\iptv.png" />
     <None Remove="img\localstorage.png" />
     <None Remove="img\power.png" />
@@ -42,6 +44,8 @@
     <Resource Include="Fonts\NotoSansJP-Medium.ttf" />
     <Resource Include="Fonts\NotoSansJP-Regular.ttf" />
     <Resource Include="Fonts\NotoSansJP-Thin.ttf" />
+    <Resource Include="img\file.png" />
+    <Resource Include="img\folder.png" />
     <Resource Include="img\icon_old.ico" />
     <Resource Include="img\iptv.png" />
     <Resource Include="img\localstorage.png" />

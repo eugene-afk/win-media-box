@@ -35,6 +35,7 @@ namespace WinMediaBox.ViewModel.SubMediaActions.Builders
                     item.title = FormattedDirName;
                     string poster = posters.Where(x => Path.GetFileNameWithoutExtension(x) == FormattedDirName).FirstOrDefault();
                     item.img = poster;
+                    item.type = Types.MediaType.Series;
                     if (!UCommons.isValidImage(poster))
                     {
                         item.img = Path.Combine(Directory.GetCurrentDirectory(), "images/default.png");

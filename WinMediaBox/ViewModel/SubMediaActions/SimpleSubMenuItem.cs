@@ -11,5 +11,22 @@ namespace WinMediaBox.ViewModel.SubMediaActions
         public string option1 { get; set; }
         [JsonIgnore]
         public MediaType type { get; set; } = MediaType.Default;
+        [JsonIgnore]
+        public string typeImage 
+        { 
+            get 
+            {
+                if (option1 == "reload")
+                    return "";
+                switch (type)
+                {
+                    case MediaType.Series:
+                        return "/img/folder.png";
+                    case 0:
+                        return "/img/file.png";
+                }
+                return "/img/file.png";
+            }
+        } 
     }
 }

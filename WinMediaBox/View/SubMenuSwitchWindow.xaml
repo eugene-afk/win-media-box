@@ -48,8 +48,10 @@
                                     <Border CornerRadius="5,5,0,0">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding img}" Stretch="UniformToFill" />
+                                            
                                         </Border.Background>
                                     </Border>
+                                    <Image Source="{Binding typeImage}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="60" Margin="5 10"/>
                                 </Grid>
                                 <!--<Image Source="{Binding img}" Stretch="UniformToFill" Height="450" Grid.Row="0" />-->
                                 <StackPanel Orientation="Vertical" Grid.Row="1">
