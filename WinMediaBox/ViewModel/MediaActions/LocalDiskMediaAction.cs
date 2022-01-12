@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using WinMediaBox.Classes.Tools;
 using WinMediaBox.Interfaces;
@@ -33,6 +34,30 @@ namespace WinMediaBox.Classes.MediaActions
         {
             items = new SubMenuItems(new LocalBuilder());
             switchPage.UpdateData(items);
+        }
+
+        public void LoadItemsFromSeriesDirectory(string path, string posterPath)
+        {
+            var files = Directory.GetFiles(path);
+            items.Clear();
+            AddReturnDataItem(310);
+            foreach (var i in files)
+            {
+                SimpleSubMenuItem item = new();
+                item.option1 = i;
+                item.title = Path.GetFileNameWithoutExtension(i);
+                item.img = posterPath;
+                if (!UCommons.isValidImage(posterPath))
+                {
+                    item.img = Path.Combine(Directory.GetCurrentDirectory(), "images/default.png");
+                }
+                if (string.IsNullOrEmpty(item.color) || !item.color.Contains("#"))
+                {
+                    item.color = "#222";
+                }
+                item.cardWidth = 310;
+                items.Add(item);
+            }
         }
 
         public async Task Start()
@@ -141,6 +166,18 @@ namespace WinMediaBox.Classes.MediaActions
                 _selectionWindow = new PlayerSelectionWindow(this);
                 _selectionWindow.Show();
             }
+        }
+
+        private void AddReturnDataItem(int cardWidth)
+        {
+            items.Add(new SimpleSubMenuItem()
+            {
+                option1 = "reload",
+                title = "Return",
+                img = "/img/return.png",
+                color = "#222",
+                cardWidth = cardWidth
+            });
         }
 
         public void Stop()

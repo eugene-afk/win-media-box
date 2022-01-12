@@ -21,6 +21,7 @@
     <None Remove="img\localstorage.png" />
     <None Remove="img\power.png" />
     <None Remove="img\radio.png" />
+    <None Remove="img\return.png" />
     <None Remove="img\twitch.png" />
     <None Remove="img\yt.png" />
   </ItemGroup>
@@ -51,6 +52,7 @@
     <Resource Include="img\localstorage.png" />
     <Resource Include="img\power.png" />
     <Resource Include="img\radio.png" />
+    <Resource Include="img\return.png" />
     <Resource Include="img\twitch.png" />
     <Resource Include="img\yt.png">
       <CopyToOutputDirectory>

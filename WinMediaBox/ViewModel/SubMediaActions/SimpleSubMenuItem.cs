@@ -16,7 +16,7 @@ namespace WinMediaBox.ViewModel.SubMediaActions
         { 
             get 
             {
-                if (option1 == "reload")
+                if (option1 == "reload" || option1 == "return")
                     return "";
                 switch (type)
                 {
