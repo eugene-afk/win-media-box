@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Fonts\NotoSansJP-Black.ttf" />
     <None Remove="Fonts\NotoSansJP-Bold.ttf" />
@@ -25,9 +22,7 @@
     <None Remove="img\twitch.png" />
     <None Remove="img\yt.png" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="LibVLCSharp" Version="3.5.1" />
     <PackageReference Include="LibVLCSharp.WPF" Version="3.5.1" />
     <PackageReference Include="m3uParser.NET" Version="1.0.17" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1-beta1" />
@@ -35,8 +30,11 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00909" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.16" />
     <PackageReference Include="XamlAnimatedGif" Version="2.0.0-alpha.1" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Resource Include="Fonts\NotoSansJP-Black.ttf" />
     <Resource Include="Fonts\NotoSansJP-Bold.ttf" />
@@ -51,10 +49,10 @@
     <Resource Include="img\radio.png" />
     <Resource Include="img\twitch.png" />
     <Resource Include="img\yt.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
+      <CopyToOutputDirectory>
+      </CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="temp\data\corePathes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -95,4 +93,5 @@
     <None Update="temp\images\yt\nasa.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup></Project>
+  </ItemGroup>
+</Project>
