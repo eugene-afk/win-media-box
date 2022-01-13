@@ -19,6 +19,8 @@ namespace WinMediaBox.Classes.MediaActions
         private Process _proc;
         private VLCService _vlcService;
         private bool _isVLC = false;
+        private bool _isSeries = false;
+        private int _seriesIndex = 0;
         private PlayerSelectionWindow _selectionWindow;
         private SimpleSubMenuItem _simpleSelectedItem;
 
@@ -32,12 +34,14 @@ namespace WinMediaBox.Classes.MediaActions
 
         public void Reload()
         {
+            _isSeries = false;
             items = new SubMenuItems(new LocalBuilder());
             switchPage.UpdateData(items);
         }
 
         public void LoadItemsFromSeriesDirectory(string path, string posterPath)
         {
+            _isSeries = true;   
             var files = Directory.GetFiles(path);
             items.Clear();
             AddReturnDataItem(310);
@@ -99,14 +103,38 @@ namespace WinMediaBox.Classes.MediaActions
             {
                 //if vlc doesn't work - going next try with default user player and default windows player
                 _vlcService = new VLCService();
-                _vlcService.PlaySingleVideo(@"" + _simpleSelectedItem.option1 + "");
                 _isVLC = true;
+                if (_isSeries)
+                {
+                    _vlcService.PlayMultipleVideos(@"" + _simpleSelectedItem.option1 + "", PlayNextVideo);
+                    _seriesIndex = items.IndexOf(_simpleSelectedItem);
+                    return;
+                }
+                _vlcService.PlaySingleVideo(@"" + _simpleSelectedItem.option1 + "");
                 return;
             }
             catch (Exception ex)
             {
                 Log.Logger.Error("*_vlcService.PlaySingleVideo* msg: " + ex);
             }
+        }
+
+        private void PlayNextVideo()
+        {
+            try
+            {
+                _simpleSelectedItem = (SimpleSubMenuItem)items[_seriesIndex + 1];
+            }
+            catch 
+            {
+                _ = SendKeys.Send(AppDomain.CurrentDomain.FriendlyName, 0x1B, false, 0);
+                return;
+            }
+            Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                _vlcService.ChangeVideo(@"" + _simpleSelectedItem.option1 + "");
+            });
         }
 
         public async void StartWithDefaultPlayer()
@@ -184,6 +212,7 @@ namespace WinMediaBox.Classes.MediaActions
         {
             if (isActive)
             {
+                _isSeries = false;
                 items = null;
                 isActive = false;
 

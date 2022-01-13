@@ -32,6 +32,20 @@ namespace WinMediaBox.Classes
             AttachHotKeys();
         }
 
+        public void PlayMultipleVideos(string path, Action action)
+        {
+            PlaySingleVideo(path);
+            player.EndReached += (s, e) => action();
+        }
+
+        public void ChangeVideo(string path)
+        {
+            var media = new Media(libVLC, new Uri(path));
+            player.Media = media;
+            media.Dispose();
+            player.Play();
+        }
+
         private void AttachHotKeys()
         {
             _hotKeys = new List<HotKey>();
