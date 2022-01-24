@@ -22,6 +22,8 @@ Win Media Box is a media application for Windows platform include possibility to
 ## Todos
 Although in current state this application match my needs and works stable enought in real world, for now it's not a fully finished project that need some important things to do:
 
+* **VLC time**. Add timeline for the player and possibility to show/hide current time for video.
+* **Database**. Add database core and as a first feature add a history of the user viewing to restore viewing from the moment it was stopped.
 * **Content management**. For now user need to edit json config files to manage content, but it's not very comfortable and need to be done from app functionality.
 * **Settings**. As in previous point to edit some of customizeble things user need to work with app filesystem and manual replace files etc. So a better way will be to add this functionality inside app. Also this module can include some properties that for now hardcoded in app like remote controller buttons events, some other default properties, pathes etc.
 * **M3U Parser**. The current parser for m3u playlists is a bit not universal, so more work will have to be done on that.
