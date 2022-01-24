@@ -26,6 +26,7 @@ namespace WinMediaBox.Classes
         {
             Media media = new Media(libVLC, new Uri(path));
             player = new MediaPlayer(media);
+            player.SetVideoTitleDisplay(Position.TopLeft, 1000);
             media.Dispose();
             player.Fullscreen = true;
             player.Play();
