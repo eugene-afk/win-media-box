@@ -104,7 +104,7 @@ namespace WinMediaBox.Classes
 
         private void StopVLC()
         {
-            _playerWindow.Close();
+            _playerWindow.Dispatcher.Invoke(() => _playerWindow.Close());
             _playerWindow = null;
         }
         
@@ -147,7 +147,7 @@ namespace WinMediaBox.Classes
                 isActive = false;
 
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);
-                App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+                App.Current.Dispatcher.Invoke(() => App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized);
 
                 if(_selectionWindow != null)
                 {

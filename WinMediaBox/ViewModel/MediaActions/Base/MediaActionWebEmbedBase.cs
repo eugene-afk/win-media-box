@@ -30,15 +30,14 @@ namespace WinMediaBox.ViewModel.MediaActions
                 isActive = false;
 
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);
-                App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+                App.Current.Dispatcher.Invoke(() => App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized);
 
                 if (selectedItem != null)
                 {
                     selectedItem = null;
-                    viewPage.Close();
+                    viewPage.Dispatcher.Invoke(() => viewPage.Close());
                 }
-
-                switchPage.Close();
+                switchPage.Dispatcher.Invoke(() => switchPage.Close());
             }
         }
 

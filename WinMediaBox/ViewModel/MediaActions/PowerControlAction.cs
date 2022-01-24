@@ -43,10 +43,10 @@ namespace WinMediaBox.ViewModel.MediaActions
                 isActive = false;
 
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);
-                App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+                App.Current.Dispatcher.Invoke(() => App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized);
 
-                _page.Close();
-                _tPage.Close();
+                _page.Dispatcher.Invoke(() => _page.Close());
+                _tPage.Dispatcher.Invoke(() => _tPage.Close());
             }
         }
 

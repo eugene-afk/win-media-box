@@ -217,7 +217,7 @@ namespace WinMediaBox.Classes.MediaActions
                 isActive = false;
 
                 SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);
-                App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+                App.Current.Dispatcher.Invoke(() => App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized);
 
                 if (selectedItem != null)
                 {
@@ -225,7 +225,7 @@ namespace WinMediaBox.Classes.MediaActions
 
                     if (_selectionWindow != null)
                     {
-                        _selectionWindow.Close();
+                        _selectionWindow.Dispatcher.Invoke(() => _selectionWindow.Close());
                         _selectionWindow = null;
                         return;
                     }
@@ -262,7 +262,7 @@ namespace WinMediaBox.Classes.MediaActions
                     }
                     return;
                 }
-                switchPage.Close();
+                switchPage.Dispatcher.Invoke(() => switchPage.Close());
                 switchPage = null;
             }
         }

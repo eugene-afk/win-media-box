@@ -28,7 +28,7 @@ namespace WinMediaBox
             {
                 case PowerModes.Resume:
                     SendKeys.SetForegroundWindow(AppDomain.CurrentDomain.FriendlyName);
-                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+                    Current.Dispatcher.Invoke(() => App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized);                    
                     break;
                 case PowerModes.Suspend:
                     SessionExiting.EndAll();
