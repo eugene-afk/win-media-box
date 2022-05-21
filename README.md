@@ -22,6 +22,7 @@ Win Media Box is a media application for Windows platform include possibility to
 ## Todos
 Although in current state this application match my needs and works stable enought in real world, for now it's not a fully finished project that need some important things to do:
 
+* **Hotkeys on cancel/resume session**. With .net6/win11 appeared some bugs with unregister hotkeys in sleep.
 * **VLC time**. Add timeline for the player and possibility to show/hide current time for video.
 * **Database**. Add database core and as a first feature add a history of the user viewing to restore viewing from the moment it was stopped.
 * **Content management**. For now user need to edit json config files to manage content, but it's not very comfortable and need to be done from app functionality.

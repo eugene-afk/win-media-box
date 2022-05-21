@@ -45,6 +45,12 @@ namespace WinMediaBox.Classes.Tools
             keybd_event(key, 0, KEYEVENTF_KEYUP, 0);
         }
 
+        public static void SendWithoutProc(byte key)
+        {
+            keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY, 0);
+            keybd_event(key, 0, KEYEVENTF_KEYUP, 0);
+        }
+
         public static async Task SendMouseLeft()
         {
             await Task.Delay(1000);

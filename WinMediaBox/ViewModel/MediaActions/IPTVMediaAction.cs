@@ -85,7 +85,8 @@ namespace WinMediaBox.Classes
                 Stop();
                 return;
             }
-            _hotkeyF = new HotKey(Key.Up, KeyModifier.None, ToggleFullScreen);
+
+            _hotkeyF = new HotKey(Key.Up, KeyModifier.None, ToggleFullScreen); //player fullscreen hot key
 
             await DefaultPlayersDelayAndSendKeys();
         }
@@ -121,23 +122,25 @@ namespace WinMediaBox.Classes
 
         private void StopCustomPlayer()
         {
-            if (_hotkeyF == null)
-            {
-                return;
-            }
-            _hotkeyF.Dispose();
-            _hotkeyF = null;
-
             try
             {
                 _proc.Kill();
                 _proc.WaitForExit();
                 _proc.Dispose();
+                _proc = null;
             }
             catch (Exception ex)
             {
                 Log.Logger.Error("*IPTVMediaAction Stop Process* msg: " + ex);
             }
+
+            if (_hotkeyF == null)
+            {
+                return;
+            }
+
+            _hotkeyF.Dispose();
+            _hotkeyF = null;
         }
 
         public void Stop()
@@ -167,6 +170,12 @@ namespace WinMediaBox.Classes
 
         private async void ToggleFullScreen(HotKey hotKey)
         {
+            if(_proc == null)
+            {
+                _hotkeyF.Dispose();
+                SendKeys.SendWithoutProc(0x26);
+                return;
+            }
             await SendKeys.Send(_proc.ProcessName, 0x46);
         }
 
