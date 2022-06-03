@@ -1,9 +1,6 @@
 ﻿using LibVLCSharp.Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using WinMediaBox.Classes.Tools;
 
@@ -49,6 +46,7 @@ namespace WinMediaBox.Classes
 
         private void AttachHotKeys()
         {
+            ClearHotkeys();
             _hotKeys = new List<HotKey>();
             HotKey _hotKeyRewind = new HotKey(Key.Left, KeyModifier.None, Rewind);
             HotKey _hotKeyForward = new HotKey(Key.Right, KeyModifier.None, Forward);
@@ -62,6 +60,13 @@ namespace WinMediaBox.Classes
 
         private void PausePlayer(HotKey hotKey)
         {
+            if (player == null)
+            {
+                //TODO: add sendkeys for space and mediaplaypause buttons
+                ClearHotkeys();
+                return;
+            }
+
             if (player.CanPause)
             {
                 player.Pause();
@@ -73,26 +78,51 @@ namespace WinMediaBox.Classes
 
         private void Rewind(HotKey hotkey)
         {
+            if (player == null)
+            {
+                ClearHotkeys();
+                SendKeys.SendWithoutProc(WinKeysCodes.leftArrowWinKeyCode);
+                return;
+            }
+
             player.Time -= _offset;
         }
 
         private void Forward(HotKey hotkey)
         {
+            if (player == null)
+            {
+                ClearHotkeys();
+                SendKeys.SendWithoutProc(WinKeysCodes.rightArrowWinKeyCode);
+                return;
+            }
+
             player.Time += _offset;
+        }
+
+        private void ClearHotkeys()
+        {
+            if (_hotKeys != null)
+            {
+                if(_hotKeys.Count > 0)
+                {
+                    foreach (var i in _hotKeys)
+                    {
+                        i.Dispose();
+                    }
+                    _hotKeys.Clear();
+                }
+            }
         }
 
         public void Dispose()
         {
-            if (_hotKeys != null)
-            {
-                foreach (var i in _hotKeys)
-                {
-                    i.Dispose();
-                }
-                _hotKeys.Clear();
-            }
+            if (!SessionExiting.isExiting)
+                ClearHotkeys();
+
             libVLC.Dispose();
             player.Dispose();
+            player = null;
         }
     }
 }

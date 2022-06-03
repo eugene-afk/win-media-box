@@ -85,6 +85,8 @@ namespace WinMediaBox.Classes
                 Stop();
                 return;
             }
+            if(_hotkeyF != null)
+                _hotkeyF.Dispose();
 
             _hotkeyF = new HotKey(Key.Up, KeyModifier.None, ToggleFullScreen); //player fullscreen hot key
 
@@ -96,11 +98,11 @@ namespace WinMediaBox.Classes
             //wait until player init
             await Task.Delay(10000);
             //sending F for fullscreen
-            await SendKeys.Send(_proc.ProcessName, 0x46);
+            await SendKeys.Send(_proc.ProcessName, WinKeysCodes.fWinKeyCode);
 
             //sending 75 as default channel
-            await SendKeys.Send(_proc.ProcessName, 0x37);
-            await SendKeys.Send(_proc.ProcessName, 0x35);
+            await SendKeys.Send(_proc.ProcessName, WinKeysCodes.sevenWinKeyCode);
+            await SendKeys.Send(_proc.ProcessName, WinKeysCodes.fiveWinKeyCode);
         }
 
         private void StopVLC()
@@ -134,13 +136,11 @@ namespace WinMediaBox.Classes
                 Log.Logger.Error("*IPTVMediaAction Stop Process* msg: " + ex);
             }
 
-            if (_hotkeyF == null)
+            if(_hotkeyF != null && !SessionExiting.isExiting)
             {
-                return;
+                _hotkeyF.Dispose();
+                _hotkeyF = null;
             }
-
-            _hotkeyF.Dispose();
-            _hotkeyF = null;
         }
 
         public void Stop()
@@ -173,10 +173,11 @@ namespace WinMediaBox.Classes
             if(_proc == null)
             {
                 _hotkeyF.Dispose();
-                SendKeys.SendWithoutProc(0x26);
+                _hotkeyF = null;
+                SendKeys.SendWithoutProc(WinKeysCodes.upWinKeyCode);
                 return;
             }
-            await SendKeys.Send(_proc.ProcessName, 0x46);
+            await SendKeys.Send(_proc.ProcessName, WinKeysCodes.fWinKeyCode);
         }
 
     }

@@ -127,7 +127,7 @@ namespace WinMediaBox.Classes.MediaActions
             }
             catch 
             {
-                _ = SendKeys.Send(AppDomain.CurrentDomain.FriendlyName, 0x1B, false, 0);
+                _ = SendKeys.Send(AppDomain.CurrentDomain.FriendlyName, WinKeysCodes.escWinKeyCode, false, 0);
                 return;
             }
             Task.Run(async () =>

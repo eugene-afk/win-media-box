@@ -30,20 +30,20 @@ namespace WinMediaBox.Classes
                 //if you use air mouse or other remote controller change Key here to comfort Key for you,
                 //I prefer BrowserBack, it's often "Back" button on remote controller
                 _back = new HotKey(Key.Escape, KeyModifier.None, OnBackHotKeyHandler);
-
+                SessionExiting.hotKeys.Add(this._back);
             }
             if(_backBrowser == null)
             {
                 _backBrowser = new HotKey(Key.BrowserBack, KeyModifier.None, OnBackHotKeyHandler);
+                SessionExiting.hotKeys.Add(this._backBrowser);
             }
-            SessionExiting.hotKeys.Add(this._back);
-            SessionExiting.hotKeys.Add(this._backBrowser);
         }
 
         private void OnBackHotKeyHandler(HotKey hotKey)
         {
             SessionExiting.hotKeys.Remove(this._back);
-            //_hotKey.Unregister();
+            SessionExiting.hotKeys.Add(this._backBrowser);
+
             _back.Dispose();
             _back = null;
             _backBrowser.Dispose();

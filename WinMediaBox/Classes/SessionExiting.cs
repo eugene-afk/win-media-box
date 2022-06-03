@@ -9,6 +9,8 @@ namespace WinMediaBox.Classes
         public static bool isAnyMediaActionActive = false;
         public static List<HotKey> hotKeys = new List<HotKey>();
         public static bool manualExit = false;
+        public static bool isExiting = false;
+
         public static void SetEndCurrentMediaAction(OnSessionEndidngActions.EndCurrentMediaAction method)
         {
             _actions.SetEndCurrentMediaAction(method);
@@ -16,11 +18,13 @@ namespace WinMediaBox.Classes
 
         public static void EndAll()
         {
+            isExiting = true;
             if (isAnyMediaActionActive)
             {
                 _actions.endCurrentMediaAction?.Invoke();
                 return;
             }
+            isExiting = false;
         }
 
     }
